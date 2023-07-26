@@ -1,0 +1,17 @@
+.input {
+  font-size: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.672);
+  background: transparent;
+  color: white;
+  padding: 10px 15px;
+  transition: ease 0.5s;
+  &::placeholder {
+    color: white;
+    font-size: 18px;
+  }
+}
+
+.input--error {
+  border: 1px solid red;
+  color: red;
+}

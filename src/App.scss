@@ -1,0 +1,56 @@
+@import "https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic";
+body {
+  font-family: var(--main-font);
+  color: white;
+  font-size: 18px;
+  background-color: #212121;
+}
+
+h1 {
+  font-size: 45px;
+  font-weight: 700;
+}
+
+.auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.auth__container {
+  width: 100%;
+  max-width: 1000px;
+}
+
+.auth__title {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.auth-form {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.auth-form__input {
+  width: 100%;
+}
+
+.auth__error {
+  color: red;
+  margin: 0 auto;
+}
+
+.auth-form__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.auth-form__button {
+  width: 100%;
+  max-width: 250px;
+}

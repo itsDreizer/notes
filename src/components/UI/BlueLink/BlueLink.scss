@@ -1,0 +1,12 @@
+.link-blue {
+  font-weight: 200;
+  @media (any-hover: hover) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  &:visited {
+    color: #80a6ff;
+  }
+  color: #80a6ff;
+}
