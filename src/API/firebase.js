@@ -6,6 +6,7 @@ import {
   browserLocalPersistence,
   setPersistence,
   signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 export class FireBase {
@@ -21,6 +22,7 @@ export class FireBase {
 
   static #app = initializeApp(this.#firebaseConfig);
   static #auth = getAuth();
+  static user = this.#auth.currentUser;
 
   static settedPersistence = setPersistence(this.#auth, browserLocalPersistence);
 
@@ -57,6 +59,24 @@ export class FireBase {
   }
 
   static log() {
-    console.log(this.#auth);
+    console.log(this.user);
+  }
+
+  static async checkStorage(storageContent) {
+    const promise = new Promise((resolve, reject) => {
+      onAuthStateChanged(this.#auth, (user) => {
+        if (user) {
+          if (user.accessToken === JSON.parse(storageContent).stsTokenManager.accessToken) {
+            this.user = this.#auth.currentUser;
+            resolve(true);
+          }
+        } else {
+          resolve(false);
+        }
+      });
+    });
+
+    let response = await promise;
+    return response;
   }
 }

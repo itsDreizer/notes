@@ -13,7 +13,6 @@ const Login = () => {
 
   useEffect(() => {
     document.title = "Войти в аккаунт";
-    FireBase.log();
     return () => {
       document.title = "Notes";
     };

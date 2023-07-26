@@ -6,10 +6,13 @@ import BlueLink from "./UI/BlueLink/BlueLink";
 
 import validateEmail from "../utils/validateEmail";
 import validatePassword from "../utils/validatePassword";
+import { FireBase } from "../API/firebase";
 
 const AuthForm = ({ type, onSubmit }) => {
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState(false);
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   const { setIsAuth, isAuthError, setIsAuthError } = useContext(AuthContext);
   const [errorContent, setErrorContent] = useState("");
@@ -53,27 +56,35 @@ const AuthForm = ({ type, onSubmit }) => {
       <Input
         type={"text"}
         placeholder="Введите почту"
-        isError={isAuthError}
+        isAuthError={isAuthError}
+        inputError={emailError}
         className={`auth-form__input`}
         value={email}
         onChange={(e) => {
           setEmail(e.target.value);
           setIsFormValid(validateForm(e.target.value, password));
           setIsAuthError(false);
+          setEmailError(e.target.value.length > 0 ? !validateEmail(e.target.value) : false);
         }}
       />
+
       <Input
         type={"password"}
         placeholder="Введите пароль"
         className={"auth-form__input"}
-        isError={isAuthError}
+        inputError={passwordError}
+        isAuthError={isAuthError}
         value={password}
         onChange={(e) => {
           setPassword(e.target.value);
           setIsFormValid(validateForm(email, e.target.value));
           setIsAuthError(false);
+          setPasswordError(e.target.value.length > 0 ? !validatePassword(e.target.value) : false);
         }}
       />
+
+      {passwordError ? <div style={{ color: "red" }}>Пароль не менее 8 символов </div> : false}
+
       <div className="auth__error">{errorContent ? errorContent : false}</div>
       <div className="auth-form__footer">
         <BlueLink to={type === "register" ? "/login" : "/register"}>

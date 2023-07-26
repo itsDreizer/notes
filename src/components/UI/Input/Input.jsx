@@ -2,10 +2,14 @@ import React from "react";
 
 import "./Input.scss";
 
-const Input = ({ isError, ...props }) => {
+const Input = ({ isAuthError, inputError, ...props }) => {
   const classes = ["input", props.className];
 
-  if (isError) {
+  if (isAuthError) {
+    classes.push("input--error");
+  }
+
+  if (inputError) {
     classes.push("input--error");
   }
 
