@@ -1,24 +1,29 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
-import Button from "./UI/Button/Button";
-import Input from "./UI/Input/Input";
-import { AuthContext } from "../context/AuthContext";
-import BlueLink from "./UI/BlueLink/BlueLink";
+import React, { useContext, useMemo, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import BlueLink from "../UI/BlueLink/BlueLink";
+import Button from "../UI/Button/Button";
+import Input from "../UI/Input/Input";
 
-import validateEmail from "../utils/validateEmail";
-import validatePassword from "../utils/validatePassword";
-import { FireBase } from "../API/firebase";
+import validateEmail from "../../utils/validateEmail";
+import validatePassword from "../../utils/validatePassword";
 
-const AuthForm = ({ type, onSubmit }) => {
+import "./AuthForm.scss";
+
+const AuthForm = ({ type, onSubmit, nickname, setNickname, errorContent, setErrorContent }) => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
-  const { setIsAuth, isAuthError, setIsAuthError } = useContext(AuthContext);
-  const [errorContent, setErrorContent] = useState("");
-  const validateForm = (email, password) => {
-    return validateEmail(email) && validatePassword(password);
+  const { isAuthError, setIsAuthError } = useContext(AuthContext);
+
+  const validateForm = (email, password, nickname) => {
+    return type === "register"
+      ? validateEmail(email) && validatePassword(password) && nickname
+      : validateEmail(email) && validatePassword(password);
   };
+
+  console.log("render");
 
   useMemo(() => {
     if (!isAuthError) {
@@ -30,29 +35,24 @@ const AuthForm = ({ type, onSubmit }) => {
     <form
       className="auth-form"
       onSubmit={async (e) => {
-        const response = await onSubmit(e, email, password);
-        if (response.error) {
-          setIsAuthError(true);
-          switch (response.error) {
-            case `Firebase: Error (auth/user-not-found).`:
-              setErrorContent("Пользователь не найден");
-              break;
-            case `Firebase: Error (auth/email-already-in-use).`:
-              setErrorContent("Пользователь с данной почтой уже зарегистрирован");
-              break;
-            case `Firebase: Error (auth/wrong-password).`:
-              setErrorContent("Неверный пароль");
-              break;
-
-            default:
-              setErrorContent("Ошибка");
-
-              break;
-          }
-        } else {
-          setIsAuth(true);
-        }
+        onSubmit(e, email, password, nickname);
       }}>
+      {type === "register" ? (
+        <Input
+          type={"text"}
+          placeholder="Введите имя или никнейм"
+          isAuthError={isAuthError}
+          className={`auth-form__input`}
+          value={nickname}
+          onChange={(e) => {
+            setNickname(e.target.value);
+            setIsFormValid(validateForm(email, password, e.target.value));
+          }}
+        />
+      ) : (
+        false
+      )}
+
       <Input
         type={"text"}
         placeholder="Введите почту"
@@ -62,7 +62,7 @@ const AuthForm = ({ type, onSubmit }) => {
         value={email}
         onChange={(e) => {
           setEmail(e.target.value);
-          setIsFormValid(validateForm(e.target.value, password));
+          setIsFormValid(validateForm(e.target.value, password, nickname));
           setIsAuthError(false);
           setEmailError(e.target.value.length > 0 ? !validateEmail(e.target.value) : false);
         }}
@@ -77,7 +77,7 @@ const AuthForm = ({ type, onSubmit }) => {
         value={password}
         onChange={(e) => {
           setPassword(e.target.value);
-          setIsFormValid(validateForm(email, e.target.value));
+          setIsFormValid(validateForm(email, e.target.value, nickname));
           setIsAuthError(false);
           setPasswordError(e.target.value.length > 0 ? !validatePassword(e.target.value) : false);
         }}

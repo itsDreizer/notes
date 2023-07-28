@@ -1,6 +1,6 @@
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import Notes from "../pages/Notes";
+import Notes from "../pages/Notes/Notes";
 export const privateRoutes = [
   {
     path: `/`,

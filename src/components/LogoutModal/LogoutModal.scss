@@ -1,0 +1,16 @@
+.modal-logout__text {
+  text-align: center;
+}
+.modal-logout__buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.modal-logout__button {
+  @media (any-hover: hover) {
+    &:hover {
+    }
+  }
+}

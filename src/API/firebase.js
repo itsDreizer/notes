@@ -7,6 +7,7 @@ import {
   setPersistence,
   signOut,
   onAuthStateChanged,
+  updateProfile,
 } from "firebase/auth";
 
 export class FireBase {
@@ -22,14 +23,24 @@ export class FireBase {
 
   static #app = initializeApp(this.#firebaseConfig);
   static #auth = getAuth();
-  static user = this.#auth.currentUser;
 
   static settedPersistence = setPersistence(this.#auth, browserLocalPersistence);
 
-  static createUser(email, password) {
+  static createUser(email, password, nickname) {
     const response = createUserWithEmailAndPassword(this.#auth, email, password)
       .then((userCredential) => {
         this.user = userCredential.user;
+        this.username = userCredential.user.displayName;
+
+        updateProfile(this.user, {
+          displayName: nickname,
+        })
+          .then(() => {
+            return;
+          })
+          .catch((e) => {
+            console.log(e);
+          });
         return { data: userCredential };
       })
       .catch((error) => {
@@ -37,6 +48,7 @@ export class FireBase {
         console.log(errorMessage);
         return { error: errorMessage };
       });
+
     return response;
   }
 
@@ -44,6 +56,8 @@ export class FireBase {
     const response = signInWithEmailAndPassword(this.#auth, email, password)
       .then((userCredential) => {
         this.user = userCredential.user;
+        this.username = userCredential.user.displayName;
+
         return { data: userCredential };
       })
       .catch((error) => {
@@ -62,21 +76,15 @@ export class FireBase {
     console.log(this.user);
   }
 
-  static async checkStorage(storageContent) {
-    const promise = new Promise((resolve, reject) => {
+  static async checkAuth() {
+    return new Promise((resolve, reject) => {
       onAuthStateChanged(this.#auth, (user) => {
         if (user) {
-          if (user.accessToken === JSON.parse(storageContent).stsTokenManager.accessToken) {
-            this.user = this.#auth.currentUser;
-            resolve(true);
-          }
+          resolve(true);
         } else {
           resolve(false);
         }
       });
     });
-
-    let response = await promise;
-    return response;
   }
 }

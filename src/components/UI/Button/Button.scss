@@ -9,9 +9,26 @@
     opacity: 0;
   }
   @media (any-hover: hover) {
-    &:hover {
+    &:not(.hover-disabled):hover {
       background: black;
       color: white;
     }
   }
+}
+
+.button--invert {
+  background: black;
+  color: white;
+  @media (any-hover: hover) {
+    &:not(.hover-disabled):hover {
+      background-color: white;
+      color: black;
+    }
+  }
+}
+
+.button--blue {
+  color: white;
+  border: none;
+  background: var(--blue-color);
 }

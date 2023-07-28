@@ -1,14 +1,15 @@
-import React, { useContext, useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import Loader from "./components/Loader/Loader";
 import { AuthContext } from "./context/AuthContext";
 import { privateRoutes, publicRoutes } from "./router/routes";
-import { FireBase } from "./API/firebase";
-
 
 const AppRouter = () => {
   const { isAuth, isAuthLoading } = useContext(AuthContext);
 
-  if (isAuthLoading) return `Загрузка`;
+  
+
+  if (isAuthLoading) return <Loader />;
 
   return isAuth ? (
     <Routes>
