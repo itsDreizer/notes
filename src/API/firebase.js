@@ -80,6 +80,7 @@ export class FireBase {
     return new Promise((resolve, reject) => {
       onAuthStateChanged(this.#auth, (user) => {
         if (user) {
+          this.user = user;
           resolve(true);
         } else {
           resolve(false);

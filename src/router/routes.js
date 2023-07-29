@@ -1,5 +1,4 @@
-import Login from "../pages/Login";
-import Register from "../pages/Register";
+import Auth from "../components/Auth/Auth";
 import Notes from "../pages/Notes/Notes";
 export const privateRoutes = [
   {
@@ -8,7 +7,4 @@ export const privateRoutes = [
   },
 ];
 
-export const publicRoutes = [
-  { path: `/login`, element: <Login /> },
-  { path: `/register`, element: <Register /> },
-];
+export const publicRoutes = [{ path: `/auth`, element: <Auth /> }];

@@ -7,8 +7,6 @@ import { privateRoutes, publicRoutes } from "./router/routes";
 const AppRouter = () => {
   const { isAuth, isAuthLoading } = useContext(AuthContext);
 
-  
-
   if (isAuthLoading) return <Loader />;
 
   return isAuth ? (
@@ -23,7 +21,7 @@ const AppRouter = () => {
       {publicRoutes.map((route) => {
         return <Route key={route.path} path={route.path} element={route.element} />;
       })}
-      <Route path="/*" element={<Navigate to={"/login"} replace />}></Route>
+      <Route path="/*" element={<Navigate to={"/auth"} replace />}></Route>
     </Routes>
   );
 };
