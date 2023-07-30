@@ -10,6 +10,8 @@ import {
   updateProfile,
 } from "firebase/auth";
 
+import { getFirestore, addDoc, collection, getDocs, setDoc, doc } from "firebase/firestore";
+
 export class FireBase {
   static #firebaseConfig = {
     apiKey: "AIzaSyBiP49dOfTsq7UKUmSTvM5_IpMuUKVJT-o",
@@ -23,24 +25,19 @@ export class FireBase {
 
   static #app = initializeApp(this.#firebaseConfig);
   static #auth = getAuth();
-
   static settedPersistence = setPersistence(this.#auth, browserLocalPersistence);
+  static #db = getFirestore(this.#app);
 
   static createUser(email, password, nickname) {
     const response = createUserWithEmailAndPassword(this.#auth, email, password)
       .then((userCredential) => {
         this.user = userCredential.user;
-        this.username = userCredential.user.displayName;
-
+        this.username = nickname;
         updateProfile(this.user, {
           displayName: nickname,
-        })
-          .then(() => {
-            return;
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+        }).catch((e) => {
+          console.log(e);
+        });
         return { data: userCredential };
       })
       .catch((error) => {
@@ -72,11 +69,7 @@ export class FireBase {
     signOut(this.#auth);
   }
 
-  static log() {
-    console.log(this.user);
-  }
-
-  static async checkAuth() {
+  static checkAuth() {
     return new Promise((resolve, reject) => {
       onAuthStateChanged(this.#auth, (user) => {
         if (user) {
@@ -88,4 +81,33 @@ export class FireBase {
       });
     });
   }
+
+  static async addNote(title, body) {
+    try {
+      await setDoc(doc(collection(this.#db, this.user.uid)), {
+        title,
+        body,
+      });
+    } catch (e) {
+      console.log("Error adding document: ", e);
+    }
+  }
+
+  static async getAllNotes() {
+    try {
+      const result = [];
+      const querySnapshot = await getDocs(collection(this.#db, this.user.uid));
+      querySnapshot.forEach((note) => {
+        const noteObject = { id: note.id, ...note.data() };
+        result.push(noteObject);
+      });
+      return result;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  static async getCategories() {}
+
+  static async getNote() {}
 }

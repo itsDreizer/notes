@@ -1,0 +1,10 @@
+.search-input {
+  font-size: 18px;
+  border-radius: 30px;
+  padding: 10px 15px;
+  color: white;
+  background-color: rgb(52, 49, 49);
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.505);
+  }
+}

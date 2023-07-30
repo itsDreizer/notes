@@ -1,0 +1,22 @@
+.note {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 11px;
+  padding: 15px;
+  background-color: rgb(52, 49, 49);
+}
+
+.note__title {
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.note__body {
+  font-weight: 300;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+

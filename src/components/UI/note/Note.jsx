@@ -1,11 +1,14 @@
 import React from "react";
 
-const Note = ({ title, body, tags, date }) => {
+import "./Note.scss";
+import { Link } from "react-router-dom";
+
+const Note = ({ title, body, id }) => {
   return (
-    <div className="note">
+    <Link to={`/notes/${id}`} className="note">
       <div className="note__title">{title}</div>
-      <div className="note__body"></div>
-    </div>
+      <div className="note__body">{body}</div>
+    </Link>
   );
 };
 

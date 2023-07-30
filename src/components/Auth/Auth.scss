@@ -28,7 +28,9 @@
 
 .auth__error {
   color: red;
-  margin: 0 auto;
+  &--center {
+    margin: 0 auto;
+  }
 }
 
 .auth-form__footer {

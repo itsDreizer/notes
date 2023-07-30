@@ -9,12 +9,14 @@ const Modal = ({ children, setModalVisible, modalVisible, className }) => {
         setModalVisible(false);
       }}
       className={`modal ${className}`}>
-      <div
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-        className="modal__content">
-        {children}
+      <div className="modal__container">
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          className="modal__content">
+          {children}
+        </div>
       </div>
     </div>
   );

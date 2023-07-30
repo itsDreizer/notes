@@ -2,9 +2,11 @@ import React from "react";
 import BlueLink from "../components/UI/BlueLink/BlueLink";
 import Button from "../components/UI/Button/Button";
 import Input from "../components/UI/Input/Input";
-import useLoginForm from "../hooks/useLoginForm";
+import { useLoginForm } from "../hooks/useAuthForm";
 import validateEmail from "../utils/validateEmail";
 import validatePassword from "../utils/validatePassword";
+import AuthError from "../components/Auth/AuthError";
+import PasswordEye from "../components/passwordEye/PasswordEye";
 
 const Login = ({ setType }) => {
   const { authFormState, setAuthFormState, validateForm, login, setIsAuthError, isAuthError } = useLoginForm();
@@ -32,27 +34,30 @@ const Login = ({ setType }) => {
           setIsAuthError(false);
         }}
       />
-      <Input
-        type={"password"}
-        placeholder="Введите пароль"
-        className={"auth-form__input"}
-        inputError={authFormState.passwordError}
-        isAuthError={isAuthError}
-        value={authFormState.password}
-        onChange={(e) => {
-          setAuthFormState({
-            ...authFormState,
-            password: e.target.value,
-            isFormValid: validateForm(authFormState.email, e.target.value),
-            passwordError: e.target.value.length > 0 ? !validatePassword(e.target.value) : false,
-          });
-          setIsAuthError(false);
-        }}
-      />
+      <PasswordEye>
+        <Input
+          type={"password"}
+          placeholder="Введите пароль"
+          className={"auth-form__input"}
+          inputError={authFormState.passwordError}
+          isAuthError={isAuthError}
+          value={authFormState.password}
+          onChange={(e) => {
+            setAuthFormState({
+              ...authFormState,
+              password: e.target.value,
+              isFormValid: validateForm(authFormState.email, e.target.value),
+              passwordError: e.target.value.length > 0 ? !validatePassword(e.target.value) : false,
+            });
+            setIsAuthError(false);
+          }}
+        />
+      </PasswordEye>
 
-      {authFormState.passwordError ? <div style={{ color: "red" }}>Пароль не менее 8 символов </div> : false}
-
-      <div className="auth__error">{authFormState.errorContent ? authFormState.errorContent : false}</div>
+      <AuthError error={authFormState.passwordError}>Пароль должен быть не менее 8 символов</AuthError>
+      <AuthError isCenter={true} error={authFormState.errorContent}>
+        {authFormState.errorContent}
+      </AuthError>
 
       <div className="auth-form__footer">
         <BlueLink

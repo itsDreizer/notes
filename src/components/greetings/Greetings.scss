@@ -1,0 +1,16 @@
+.greetings {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  @media (max-width: 600px) {
+    & {
+      display: none;
+    }
+  }
+}
+.greetings__container {
+}
+.greetings__title {
+}
