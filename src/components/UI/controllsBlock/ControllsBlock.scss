@@ -1,0 +1,44 @@
+.controlls-block {
+}
+
+.controlls-block__title {
+  font-size: 16px;
+  margin-bottom: 10px;
+  margin-left: 6px;
+}
+
+.controlls-block__items {
+  width: 100%;
+  background: rgb(50, 45, 45);
+  border-radius: 11px;
+}
+
+.controlls-block__item {
+  cursor: pointer;
+  position: relative;
+  padding: 25px 15px;
+  &:not(:last-child) {
+    border-bottom: 1px solid white;
+  }
+  &.active {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      transform: translate(0, -50%);
+      right: 15px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: white;
+    }
+  }
+
+  &::after {
+    content: "";
+  }
+}
+
+.controlls-block__create {
+  font-weight: 700;
+}

@@ -7,7 +7,11 @@ import { FireBase } from "../../API/firebase";
 
 const LogoutModal = ({ setModalVisible, modalVIsible, setIsAuth }) => {
   return (
-    <Modal setModalVisible={setModalVisible} modalVisible={modalVIsible} className={"modal-logout"}>
+    <Modal
+      isCloseButton={true}
+      setModalVisible={setModalVisible}
+      modalVisible={modalVIsible}
+      className={"modal-logout"}>
       <span className="modal-logout__text">Вы действительно хотите выйти из аккаунта?</span>
       <div className="modal-logout__buttons">
         <Button

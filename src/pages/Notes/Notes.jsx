@@ -19,6 +19,7 @@ const Notes = () => {
     if (currentCategory === "Все заметки") {
       return notes;
     }
+
     return notes.filter((note) => {
       return note.category.toLowerCase().includes(currentCategory.toLowerCase());
     });
@@ -52,6 +53,7 @@ const Notes = () => {
               currentCategory={currentCategory}
               setCurrentCategory={setCurrentCategory}
               allCategories={allCategories}
+              setAllCategories={setAllCategories}
               length={sortedNotes.length}
             />
             <NotesList

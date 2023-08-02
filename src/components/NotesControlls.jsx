@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 import SearchInput from "./UI/searchInput/SearchInput";
 import { Link } from "react-router-dom";
-import CategoryControlls from "./categotyControlls/CategoryControlls";
+import ControllsBlock from "./UI/controllsBlock/ControllsBlock";
+import ControllsBlockItem from "./UI/controllsBlock/ControllsBlockItem";
+import CreateCategory from "./UI/controllsBlock/CreateCategory";
 
 const NotesControlls = (props) => {
-  const { currentCategory, setCurrentCategory, searchQuery, setSearchQuery, allCategories, length } = props;
+  const { currentCategory, setCurrentCategory, searchQuery, setSearchQuery, allCategories, setAllCategories, length } =
+    props;
 
-  const [isCategoryControllsVisible, setIsCategoryControllsVisible] = useState(true);
+  const [isCategoryControllsVisible, setIsCategoryControllsVisible] = useState(false);
+
+  const setCategory = (e) => {
+    setCurrentCategory(e.target.textContent);
+    setIsCategoryControllsVisible(false);
+  };
 
   return (
     <div className="notes-controlls">
@@ -35,7 +43,33 @@ const NotesControlls = (props) => {
           setSearchQuery(e.target.value);
         }}
       />
-      {isCategoryControllsVisible ? <CategoryControlls categories={allCategories} /> : false}
+      {isCategoryControllsVisible ? (
+        <div className="notes-controlls__menu">
+          <ControllsBlock>
+            <ControllsBlockItem currentCategory={currentCategory} onClick={setCategory}>
+              Все заметки
+            </ControllsBlockItem>
+            <ControllsBlockItem currentCategory={currentCategory} onClick={setCategory}>
+              Без категории
+            </ControllsBlockItem>
+            <ControllsBlockItem>Избранное</ControllsBlockItem>
+          </ControllsBlock>
+          <ControllsBlock title={"Категории"}>
+            {allCategories.length
+              ? allCategories.map((category) => {
+                  return (
+                    <ControllsBlockItem key={category} currentCategory={currentCategory} onClick={setCategory}>
+                      {category}
+                    </ControllsBlockItem>
+                  );
+                })
+              : false}
+            <CreateCategory allCategories={allCategories} setAllCategories={setAllCategories} />
+          </ControllsBlock>
+        </div>
+      ) : (
+        false
+      )}
     </div>
   );
 };

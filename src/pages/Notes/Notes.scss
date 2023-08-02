@@ -13,8 +13,23 @@
 }
 
 .notes-controlls {
+  position: relative;
   display: flex;
   flex-direction: column;
+}
+
+.notes-controlls__menu {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: rgb(0, 0, 0);
+  padding: 10px;
+  border-radius: 11px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translate(0, 10px);
 }
 
 .notes-controlls__header {
