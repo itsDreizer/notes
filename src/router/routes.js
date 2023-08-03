@@ -11,6 +11,7 @@ export const privateRoutes = [
     path: `/notes/:id`,
     element: <NotePageId />,
   },
+
   {
     path: `/notes/create`,
     element: <CreateNote />,

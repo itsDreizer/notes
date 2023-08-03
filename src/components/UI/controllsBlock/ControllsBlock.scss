@@ -33,10 +33,16 @@
       background: white;
     }
   }
+}
 
-  &::after {
-    content: "";
-  }
+.controlls-block__item-delete {
+  padding: 10px;
+  padding-right: 0px;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  right: 15px;
 }
 
 .controlls-block__create {

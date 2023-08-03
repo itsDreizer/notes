@@ -12,21 +12,21 @@ const LogoutModal = ({ setModalVisible, modalVIsible, setIsAuth }) => {
       setModalVisible={setModalVisible}
       modalVisible={modalVIsible}
       className={"modal-logout"}>
-      <span className="modal-logout__text">Вы действительно хотите выйти из аккаунта?</span>
-      <div className="modal-logout__buttons">
+      <span className="modal__text">Вы действительно хотите выйти из аккаунта?</span>
+      <div className="modal__buttons">
         <Button
           onClick={() => {
             FireBase.logout();
             setIsAuth(false);
           }}
-          className={`modal-logout__button hover-disabled`}>
+          className={`modal__button hover-disabled`}>
           Да
         </Button>
         <Button
           onClick={() => {
             setModalVisible(false);
           }}
-          className={"button--invert modal-logout__button hover-disabled"}>
+          className={"button--invert modal__button hover-disabled"}>
           Нет
         </Button>
       </div>

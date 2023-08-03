@@ -10,7 +10,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 
-import { getFirestore, addDoc, collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc } from "firebase/firestore";
 
 export class FireBase {
   static #firebaseConfig = {
@@ -38,6 +38,7 @@ export class FireBase {
         }).catch((e) => {
           console.log(e);
         });
+        this.createCategories();
         return { data: userCredential };
       })
       .catch((error) => {
@@ -82,21 +83,24 @@ export class FireBase {
     });
   }
 
-  static async addNote(title, body) {
+  static async addNote(title, body, category = "Без категории") {
     try {
-      await setDoc(doc(collection(this.#db, this.user.uid)), {
+      await setDoc(doc(collection(this.#db, this.user.uid + `-notes`)), {
         title,
         body,
+        category,
       });
     } catch (e) {
       console.log("Error adding document: ", e);
     }
   }
 
+  static async getNote() {}
+
   static async getAllNotes() {
     try {
       const result = [];
-      const querySnapshot = await getDocs(collection(this.#db, this.user.uid));
+      const querySnapshot = await getDocs(collection(this.#db, this.user.uid + `-notes`));
       querySnapshot.forEach((note) => {
         const noteObject = { id: note.id, ...note.data() };
         result.push(noteObject);
@@ -107,7 +111,47 @@ export class FireBase {
     }
   }
 
-  static async getCategories() {}
+  static async createCategories() {
+    try {
+      await setDoc(doc(collection(this.#db, this.user.uid + `-categories`), "categories"), {
+        categories: ["Работа", "Личное", "Путешествия"],
+      });
+    } catch (e) {
+      console.log("Error adding document: ", e);
+    }
+  }
 
-  static async getNote() {}
+  static async getCategories() {
+    try {
+      let result;
+      const querySnapshot = await getDocs(collection(this.#db, this.user.uid + `-categories`), "categories");
+      querySnapshot.forEach((category) => {
+        result = category.data();
+      });
+      return result;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  static async updateCategories(categories) {
+    try {
+      await setDoc(doc(collection(this.#db, this.user.uid + `-categories`), "categories"), {
+        categories: [...categories],
+      });
+    } catch (e) {
+      console.log("Error adding document: ", e);
+    }
+  }
+
+  static async deleteCategory(categories, notes) {
+    try {
+      await this.updateCategories(categories);
+      notes.forEach(async (note) => {
+        await deleteDoc(doc(this.#db, this.user.uid + `-notes`, note.id));
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }

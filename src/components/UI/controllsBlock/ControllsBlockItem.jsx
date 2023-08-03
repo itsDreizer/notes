@@ -1,9 +1,33 @@
 import React from "react";
 
-const ControllsBlockItem = ({ currentCategory, children, ...props }) => {
+const ControllsBlockItem = (props) => {
+  const {
+    onClick,
+    setCategoryToDelete,
+    isModalVisible,
+    setIsModalVisible,
+    isDeleteButton,
+    index,
+    currentCategory,
+    children,
+  } = props;
   return (
-    <div {...props} className={`controlls-block__item ${currentCategory === children ? "active" : ""}`}>
+    <div onClick={onClick} className={`controlls-block__item ${currentCategory === children ? "active" : ""}`}>
       {children}
+
+      {isDeleteButton && currentCategory !== children ? (
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            setCategoryToDelete(children);
+            setIsModalVisible(true);
+          }}
+          className="controlls-block__item-delete">
+          x
+        </div>
+      ) : (
+        false
+      )}
     </div>
   );
 };

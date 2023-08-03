@@ -13,15 +13,14 @@ const Notes = () => {
   const [notes, setNotes] = useState([]);
   const [currentCategory, setCurrentCategory] = useState("Все заметки");
   const [searchQuery, setSearchQuery] = useState("");
-  const [allCategories, setAllCategories] = useState(["Увлечения", "Работа"]);
+  const [allCategories, setAllCategories] = useState([]);
 
   const categoriedNotes = useMemo(() => {
     if (currentCategory === "Все заметки") {
       return notes;
     }
-
     return notes.filter((note) => {
-      return note.category.toLowerCase().includes(currentCategory.toLowerCase());
+      return note.category === currentCategory;
     });
   }, [currentCategory, notes]);
 
@@ -36,8 +35,14 @@ const Notes = () => {
     setNotes([...userNotes]);
   });
 
+  const [fetchCategories, isCategoriesLoading, isFetchingCategoriesError] = useFetching(async () => {
+    const { categories } = await FireBase.getCategories();
+    setAllCategories([...categories]);
+  });
+
   useEffect(() => {
     fetchNotes();
+    fetchCategories();
   }, []);
 
   return (
@@ -48,6 +53,10 @@ const Notes = () => {
         <section className="notes">
           <div className="notes__container">
             <NotesControlls
+              fetchCategories={fetchCategories}
+              fetchNotes={fetchNotes}
+              notes={notes}
+              setNotes={setNotes}
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
               currentCategory={currentCategory}

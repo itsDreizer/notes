@@ -32,3 +32,16 @@
   right: 0px;
   filter: invert(100%);
 }
+
+.modal__text {
+  text-align: center;
+  line-height: 1.5;
+}
+
+.modal__buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
