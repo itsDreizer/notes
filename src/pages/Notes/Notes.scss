@@ -19,6 +19,9 @@
 }
 
 .notes-controlls__menu {
+  transition: ease 0.5s;
+  pointer-events: none;
+  opacity: 0;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -30,6 +33,10 @@
   left: 0;
   width: 100%;
   transform: translate(0, 10px);
+  &.active {
+    pointer-events: all;
+    opacity: 1;
+  }
 }
 
 .notes-controlls__header {

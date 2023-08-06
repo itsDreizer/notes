@@ -10,9 +10,12 @@ const ControllsBlockItem = (props) => {
     index,
     currentCategory,
     children,
+    className,
   } = props;
   return (
-    <div onClick={onClick} className={`controlls-block__item ${currentCategory === children ? "active" : ""}`}>
+    <div
+      onClick={onClick}
+      className={`controlls-block__item ${currentCategory === children ? "active" : ""} ${className ? className : ""}`}>
       {children}
 
       {isDeleteButton && currentCategory !== children ? (

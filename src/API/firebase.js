@@ -83,12 +83,13 @@ export class FireBase {
     });
   }
 
-  static async addNote(title, body, category = "Без категории") {
+  static async addNote(title, body, category = "Без категории", date) {
     try {
       await setDoc(doc(collection(this.#db, this.user.uid + `-notes`)), {
         title,
         body,
         category,
+        date,
       });
     } catch (e) {
       console.log("Error adding document: ", e);

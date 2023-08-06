@@ -1,11 +1,13 @@
-import React from 'react'
+import React from "react";
 
-const NotePage = () => {
+import "./NotePage.scss";
+
+const NotePage = ({ submit, children }) => {
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <form onSubmit={submit} className="note-page">
+      <div className="note-page__container">{children}</div>
+    </form>
+  );
+};
 
-export default NotePage
+export default NotePage;

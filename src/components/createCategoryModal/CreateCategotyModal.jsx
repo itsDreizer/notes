@@ -6,7 +6,7 @@ import Input from "../UI/Input/Input";
 import "./CreateCategotyModal.scss";
 import { FireBase } from "../../API/firebase";
 
-const CreateCategotyModal = (props) => {
+const CreateCategoryModal = (props) => {
   const { setIsModalVisible, allCategories, setAllCategories, fetchCategories } = props;
   const [error, setError] = useState("");
   const [categoryName, setCategoryName] = useState("");
@@ -49,4 +49,4 @@ const CreateCategotyModal = (props) => {
   );
 };
 
-export default CreateCategotyModal;
+export default CreateCategoryModal;

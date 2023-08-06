@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import Header from "../../components/Header/Header";
 import "./Notes.scss";
 import { FireBase } from "../../API/firebase";
@@ -8,12 +8,13 @@ import NotesList from "../../components/NotesList";
 import Button from "../../components/UI/Button/Button";
 
 import useFetching from "../../hooks/useFetching";
+import { CategoriesContext } from "../../context/CategoriesContext";
 
 const Notes = () => {
+  const { allCategories, setAllCategories, fetchCategories } = useContext(CategoriesContext);
   const [notes, setNotes] = useState([]);
   const [currentCategory, setCurrentCategory] = useState("Все заметки");
   const [searchQuery, setSearchQuery] = useState("");
-  const [allCategories, setAllCategories] = useState([]);
 
   const categoriedNotes = useMemo(() => {
     if (currentCategory === "Все заметки") {
@@ -32,15 +33,14 @@ const Notes = () => {
 
   const [fetchNotes, isNotesLoading, isFetchingNotesError] = useFetching(async () => {
     const userNotes = await FireBase.getAllNotes();
+    userNotes.sort((a, b) => {
+      return b.date - a.date;
+    });
     setNotes([...userNotes]);
   });
 
-  const [fetchCategories, isCategoriesLoading, isFetchingCategoriesError] = useFetching(async () => {
-    const { categories } = await FireBase.getCategories();
-    setAllCategories([...categories]);
-  });
-
   useEffect(() => {
+    document.title = "Notes";
     fetchNotes();
     fetchCategories();
   }, []);

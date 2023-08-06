@@ -84,41 +84,37 @@ const NotesControlls = (props) => {
           setSearchQuery(e.target.value);
         }}
       />
-      {isCategoryControllsVisible ? (
-        <div className="notes-controlls__menu">
-          <ControllsBlock>
-            <ControllsBlockItem currentCategory={currentCategory} onClick={setCategory}>
-              Все заметки
-            </ControllsBlockItem>
-            <ControllsBlockItem currentCategory={currentCategory} onClick={setCategory}>
-              Без категории
-            </ControllsBlockItem>
-            <ControllsBlockItem>Избранное</ControllsBlockItem>
-          </ControllsBlock>
-          <ControllsBlock title={"Категории"}>
-            {allCategories && allCategories.length
-              ? allCategories.map((category, index) => {
-                  return (
-                    <ControllsBlockItem
-                      setCategoryToDelete={setCategoryToDelete}
-                      isModalVisible={isDeleteModalVisible}
-                      setIsModalVisible={setIsDeleteModalVisible}
-                      isDeleteButton={true}
-                      index={index}
-                      key={category}
-                      currentCategory={currentCategory}
-                      onClick={setCategory}>
-                      {category}
-                    </ControllsBlockItem>
-                  );
-                })
-              : false}
-            <CreateCategory setIsModalVisible={setIsCreateModalVisible} />
-          </ControllsBlock>
-        </div>
-      ) : (
-        false
-      )}
+      <div className={`notes-controlls__menu ${isCategoryControllsVisible ? "active" : ""}`}>
+        <ControllsBlock>
+          <ControllsBlockItem currentCategory={currentCategory} onClick={setCategory}>
+            Все заметки
+          </ControllsBlockItem>
+          <ControllsBlockItem currentCategory={currentCategory} onClick={setCategory}>
+            Без категории
+          </ControllsBlockItem>
+          <ControllsBlockItem>Избранное</ControllsBlockItem>
+        </ControllsBlock>
+        <ControllsBlock title={"Категории"}>
+          {allCategories.length
+            ? allCategories.map((category, index) => {
+                return (
+                  <ControllsBlockItem
+                    setCategoryToDelete={setCategoryToDelete}
+                    isModalVisible={isDeleteModalVisible}
+                    setIsModalVisible={setIsDeleteModalVisible}
+                    isDeleteButton={true}
+                    index={index}
+                    key={category}
+                    currentCategory={currentCategory}
+                    onClick={setCategory}>
+                    {category}
+                  </ControllsBlockItem>
+                );
+              })
+            : false}
+          <CreateCategory setIsModalVisible={setIsCreateModalVisible} />
+        </ControllsBlock>
+      </div>
     </div>
   );
 };
