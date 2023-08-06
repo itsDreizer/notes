@@ -7,7 +7,7 @@ import "./CreateCategotyModal.scss";
 import { FireBase } from "../../API/firebase";
 
 const CreateCategoryModal = (props) => {
-  const { setIsModalVisible, allCategories, setAllCategories, fetchCategories } = props;
+  const { setIsModalVisible, allCategories, fetchCategories } = props;
   const [error, setError] = useState("");
   const [categoryName, setCategoryName] = useState("");
 

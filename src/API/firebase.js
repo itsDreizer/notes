@@ -10,7 +10,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 
-import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, getDoc, setDoc, doc, deleteDoc } from "firebase/firestore";
 
 export class FireBase {
   static #firebaseConfig = {
@@ -96,7 +96,27 @@ export class FireBase {
     }
   }
 
-  static async getNote() {}
+  static async getNote(id) {
+    try {
+      const querySnapshot = await getDoc(doc(collection(this.#db, this.user.uid + `-notes`), id));
+      return querySnapshot.data();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  static async updateNote(title, body, category = "Без категории", date, id) {
+    try {
+      await setDoc(doc(collection(this.#db, this.user.uid + `-notes`), id), {
+        title,
+        body,
+        category,
+        date,
+      });
+    } catch (e) {
+      console.log("Error adding document: ", e);
+    }
+  }
 
   static async getAllNotes() {
     try {
