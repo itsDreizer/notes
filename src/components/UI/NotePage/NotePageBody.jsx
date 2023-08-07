@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 const NotePageBody = (props) => {
   const { title, body, setBody, setIsConfirmDisabled, validateNote } = props;
 
+  const ref = useRef();
+
+  useEffect(() => {
+    ref.current.style.height = "5px";
+    ref.current.style.height = ref.current.scrollHeight + "px";
+  }, []);
+
   return (
     <textarea
+      ref={ref}
       value={body}
       placeholder="Введите текст"
       onChange={(e) => {

@@ -7,8 +7,8 @@ import NotePage from "../../components/UI/NotePage/NotePage";
 import NotePageHeader from "../../components/UI/NotePage/NotePageHeader";
 import NotePageBody from "../../components/UI/NotePage/NotePageBody";
 import { CategoriesContext } from "../../context/CategoriesContext";
-
 import PageLoader from "../../components/pageloader/PageLoader";
+import CreateCategoryModal from "../../components/createCategoryModal/CreateCategotyModal";
 
 const NotePageId = () => {
   const navigate = useNavigate();
@@ -53,33 +53,45 @@ const NotePageId = () => {
   return (
     <div>
       <Header />
-      <NotePage submit={submit}>
-        <NotePageHeader
-          currentCategory={currentCategory}
-          setCurrentCategory={setCurrentCategory}
-          setIsCreateModalVisible={setIsCreateModalVisible}
-          allCategories={allCategories}
-          date={date}
-          title={title}
-          setTitle={setTitle}
-          body={body}
-          isConfirmDisabled={isConfirmDisabled}
-          setIsConfirmDisabled={setIsConfirmDisabled}
-          validateNote={validateNote}
-          conttrolsRef={ref}
-        />
-        <NotePageBody
-          title={title}
-          body={body}
-          setBody={setBody}
-          setTitle={setTitle}
-          setIsConfirmDisabled={setIsConfirmDisabled}
-          validateNote={validateNote}
-        />
-        {/* <div ref={ref} className="note-page__controlls">
+      <main className="main">
+        {isCreateModalVisible ? (
+          <CreateCategoryModal
+            fetchCategories={fetchCategories}
+            allCategories={allCategories}
+            isModalVisible={isCreateModalVisible}
+            setIsModalVisible={setIsCreateModalVisible}
+          />
+        ) : (
+          false
+        )}
+        <NotePage submit={submit}>
+          <NotePageHeader
+            currentCategory={currentCategory}
+            setCurrentCategory={setCurrentCategory}
+            setIsCreateModalVisible={setIsCreateModalVisible}
+            allCategories={allCategories}
+            date={date}
+            title={title}
+            setTitle={setTitle}
+            body={body}
+            isConfirmDisabled={isConfirmDisabled}
+            setIsConfirmDisabled={setIsConfirmDisabled}
+            validateNote={validateNote}
+            conttrolsRef={ref}
+          />
+          <NotePageBody
+            title={title}
+            body={body}
+            setBody={setBody}
+            setTitle={setTitle}
+            setIsConfirmDisabled={setIsConfirmDisabled}
+            validateNote={validateNote}
+          />
+          {/* <div ref={ref} className="note-page__controlls">
             controlls
           </div> */}
-      </NotePage>
+        </NotePage>
+      </main>
     </div>
   );
 };
