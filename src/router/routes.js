@@ -4,7 +4,7 @@ import NotePageId from "../pages/NotePageId/NotePageId";
 import Notes from "../pages/Notes/Notes";
 export const privateRoutes = [
   {
-    path: `/`,
+    path: `/notes/main`,
     element: <Notes />,
   },
   {
@@ -18,4 +18,4 @@ export const privateRoutes = [
   },
 ];
 
-export const publicRoutes = [{ path: `/auth`, element: <Auth /> }];
+export const publicRoutes = [{ path: `/notes/auth`, element: <Auth /> }];

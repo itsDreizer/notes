@@ -7,14 +7,17 @@ import validateEmail from "../utils/validateEmail";
 import validatePassword from "../utils/validatePassword";
 import AuthError from "../components/Auth/AuthError";
 import PasswordEye from "../components/passwordEye/PasswordEye";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ setType }) => {
+  const navigate = useNavigate();
   const { authFormState, setAuthFormState, validateForm, login, setIsAuthError, isAuthError } = useLoginForm();
   return (
     <form
       className="auth-form"
       onSubmit={(e) => {
         login(e, authFormState.email, authFormState.password);
+        // navigate("/notes/main");
       }}>
       <h1 className="auth__title">Войти в аккаунт</h1>
       <Input

@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import validateEmail from "../utils/validateEmail";
 import validateNickname from "../utils/validateNickname";
 import validatePassword from "../utils/validatePassword";
+import { useNavigate } from "react-router-dom";
 
 const useAuthForm = () => {
   const { isAuthError, setIsAuth, setIsAuthError } = useContext(AuthContext);
@@ -39,6 +40,8 @@ const useAuthForm = () => {
 export const useLoginForm = () => {
   const { authFormState, setAuthFormState, setIsAuth, setIsAuthError, isAuthError } = useAuthForm();
 
+  const navigate = useNavigate();
+
   const login = async (e, email, password) => {
     e.preventDefault();
     const response = await FireBase.login(email, password);
@@ -57,11 +60,12 @@ export const useLoginForm = () => {
 
         default:
           setAuthFormState({ ...authFormState, errorContent: "Ошибка" });
-
+          navigate("/notes/main");
           break;
       }
     } else {
       setIsAuth(true);
+      navigate("/notes/main");
     }
   };
 
@@ -81,6 +85,7 @@ export const useLoginForm = () => {
 
 export const useRegisterForm = () => {
   const { authFormState, setAuthFormState, setIsAuthError, setIsAuth } = useAuthForm();
+  const navigate = useNavigate();
 
   const register = async (e, email, password, nickname) => {
     e.preventDefault();
@@ -98,6 +103,7 @@ export const useRegisterForm = () => {
       }
     } else {
       setIsAuth(true);
+      navigate("/notes/main");
     }
   };
 

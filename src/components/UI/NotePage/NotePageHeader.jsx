@@ -62,7 +62,7 @@ const NotePageHeader = (props) => {
                 setIsDeleteModalVisible(true);
               }}
               className="note-page__delete">
-              <img className="note-page__delete-img" src={"/images/trash-can.png"} alt="trash-can" />
+              <img className="note-page__delete-img" src={"./images/trash-can.png"} alt="trash-can" />
             </button>
           ) : (
             false
@@ -80,7 +80,7 @@ const NotePageHeader = (props) => {
             className="note-page__favorites">
             <img
               className={`note-page__favorites-img ${isFavorite ? "active" : ""}`}
-              src={"/images/star-24.png"}
+              src={"./images/star-24.png"}
               alt="star"
             />
           </button>

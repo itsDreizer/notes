@@ -29,6 +29,10 @@ const NotePageId = () => {
 
   const [fetchNote, isNoteLoading, isNoteError] = useFetching(async () => {
     const note = await FireBase.getNote(params.id);
+    if (params.id && !note) {
+      navigate("/notes/main");
+      return;
+    }
     setTitle(note.title);
     setBody(note.body);
     setDate(note.date);
@@ -53,7 +57,7 @@ const NotePageId = () => {
     e.preventDefault();
     const newDate = Date.now();
     await FireBase.updateNote(title, body, currentCategory, newDate, isFavorite, params.id);
-    navigate("/");
+    navigate("/notes/main");
   };
 
   const validateNote = (title, body) => {
@@ -82,7 +86,7 @@ const NotePageId = () => {
                 onClick={async (e) => {
                   setIsDeleteModalVisible(false);
                   await FireBase.deleteNote(params.id);
-                  navigate("/");
+                  navigate("/notes/main");
                 }}
                 className={`modal__button hover-disabled`}>
                 Да

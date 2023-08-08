@@ -20,7 +20,7 @@ const Notes = () => {
     if (currentCategory === "Все заметки") {
       return notes;
     }
-    
+
     if (currentCategory === "Избранное") {
       return notes.filter((note) => {
         return note.isFavorite;
@@ -31,6 +31,7 @@ const Notes = () => {
       return note.category === currentCategory;
     });
   }, [currentCategory, notes]);
+
 
   const sortedNotes = useMemo(() => {
     return categoriedNotes.filter((note) => {

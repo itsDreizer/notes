@@ -16,7 +16,7 @@ const AppRouter = () => {
         {privateRoutes.map((route) => {
           return <Route key={route.path} path={route.path} element={route.element} />;
         })}
-        <Route path="/*" element={<Navigate to={"/"} replace />}></Route>
+        <Route path="/notes/*" element={<Navigate to={"/notes/main"} replace />}></Route>
       </Routes>
     </CategoriesProvider>
   ) : (
@@ -24,7 +24,7 @@ const AppRouter = () => {
       {publicRoutes.map((route) => {
         return <Route key={route.path} path={route.path} element={route.element} />;
       })}
-      <Route path="/*" element={<Navigate to={"/auth"} replace />}></Route>
+      <Route path="/notes/*" element={<Navigate to={"/notes/auth"} replace />}></Route>
     </Routes>
   );
 };

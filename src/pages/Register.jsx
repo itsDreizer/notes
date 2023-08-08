@@ -1,17 +1,18 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthError from "../components/Auth/AuthError";
 import BlueLink from "../components/UI/BlueLink/BlueLink";
 import Button from "../components/UI/Button/Button";
 import Input from "../components/UI/Input/Input";
+import PasswordEye from "../components/passwordEye/PasswordEye";
+import { AuthContext } from "../context/AuthContext";
 import { useRegisterForm } from "../hooks/useAuthForm";
 import validateEmail from "../utils/validateEmail";
-import validatePassword from "../utils/validatePassword";
-import { AuthContext } from "../context/AuthContext";
 import validateNickname from "../utils/validateNickname";
-import AuthError from "../components/Auth/AuthError";
-import { FireBase } from "../API/firebase";
-import PasswordEye from "../components/passwordEye/PasswordEye";
+import validatePassword from "../utils/validatePassword";
 
 const Register = ({ setType }) => {
+  const navigate = useNavigate();
   const { isAuthError, setIsAuthError } = useContext(AuthContext);
   const { authFormState, setAuthFormState, validateForm, register } = useRegisterForm();
   return (
@@ -19,6 +20,7 @@ const Register = ({ setType }) => {
       className="auth-form"
       onSubmit={(e) => {
         register(e, authFormState.email, authFormState.password, authFormState.nickname);
+        // navigate("/notes/main");
       }}>
       <h1 className="auth__title">Зарегистрироваться</h1>
       <Input

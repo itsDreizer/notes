@@ -45,7 +45,7 @@ const CreateNote = () => {
     e.preventDefault();
     const newDate = Date.now();
     await FireBase.addNote(title, body, currentCategory, newDate, isFavorite);
-    navigate("/");
+    navigate("/notes/main");
   };
 
   return (
