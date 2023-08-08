@@ -18,10 +18,11 @@ import NotePageBody from "../../components/UI/NotePage/NotePageBody";
 
 const CreateNote = () => {
   const ref = useRef();
-  const { allCategories, setAllCategories, fetchCategories } = useContext(CategoriesContext);
+  const { allCategories, fetchCategories } = useContext(CategoriesContext);
   const [title, setTitle] = useState("");
   const [date, setDate] = useState(Date.now());
   const [body, setBody] = useState("");
+  const [isFavorite, setIsFavorite] = useState(false);
   const [currentCategory, setCurrentCategory] = useState("Без категории");
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
   const [isConfirmDisabled, setIsConfirmDisabled] = useState(true);
@@ -43,7 +44,7 @@ const CreateNote = () => {
   const submit = async (e) => {
     e.preventDefault();
     const newDate = Date.now();
-    await FireBase.addNote(title, body, currentCategory, newDate);
+    await FireBase.addNote(title, body, currentCategory, newDate, isFavorite);
     navigate("/");
   };
 
@@ -63,6 +64,8 @@ const CreateNote = () => {
         )}
         <NotePage submit={submit}>
           <NotePageHeader
+            isFavorite={isFavorite}
+            setIsFavorite={setIsFavorite}
             currentCategory={currentCategory}
             setCurrentCategory={setCurrentCategory}
             setIsCreateModalVisible={setIsCreateModalVisible}
@@ -84,9 +87,6 @@ const CreateNote = () => {
             setIsConfirmDisabled={setIsConfirmDisabled}
             validateNote={validateNote}
           />
-          {/* <div ref={ref} className="note-page__controlls">
-            controlls
-          </div> */}
         </NotePage>
       </main>
     </div>

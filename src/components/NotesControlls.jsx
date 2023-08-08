@@ -92,7 +92,9 @@ const NotesControlls = (props) => {
           <ControllsBlockItem currentCategory={currentCategory} onClick={setCategory}>
             Без категории
           </ControllsBlockItem>
-          <ControllsBlockItem>Избранное</ControllsBlockItem>
+          <ControllsBlockItem currentCategory={currentCategory} onClick={setCategory}>
+            Избранное
+          </ControllsBlockItem>
         </ControllsBlock>
         <ControllsBlock title={"Категории"}>
           {allCategories.length

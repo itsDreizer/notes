@@ -20,6 +20,13 @@ const Notes = () => {
     if (currentCategory === "Все заметки") {
       return notes;
     }
+    
+    if (currentCategory === "Избранное") {
+      return notes.filter((note) => {
+        return note.isFavorite;
+      });
+    }
+
     return notes.filter((note) => {
       return note.category === currentCategory;
     });
@@ -27,7 +34,7 @@ const Notes = () => {
 
   const sortedNotes = useMemo(() => {
     return categoriedNotes.filter((note) => {
-      return (note.title + note.body).toLowerCase().includes(searchQuery.toLowerCase());
+      return (note.title + " " + note.body).toLowerCase().includes(searchQuery.toLowerCase());
     });
   }, [searchQuery, categoriedNotes]);
 

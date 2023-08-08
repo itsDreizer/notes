@@ -20,6 +20,10 @@ const NotePageHeader = (props) => {
     setIsConfirmDisabled,
     conttrolsRef,
     allCategories,
+    noteId,
+    setIsDeleteModalVisible,
+    isFavorite,
+    setIsFavorite,
   } = props;
 
   const [isCategoryControllsVisible, setIsCategoryControllsVisible] = useState(false);
@@ -50,9 +54,40 @@ const NotePageHeader = (props) => {
           placeholder="Введите название заметки"
           className="note-page__title"
         />
-        <button disabled={isConfirmDisabled} className="note-page__confirm">
-          <img className="note-page__confirm-img" src={confirm} alt="confirm" />
-        </button>
+        <div className="note-page-header__controlls">
+          {noteId ? (
+            <button
+              onClick={async (e) => {
+                e.preventDefault();
+                setIsDeleteModalVisible(true);
+              }}
+              className="note-page__delete">
+              <img className="note-page__delete-img" src={"/images/trash-can.png"} alt="trash-can" />
+            </button>
+          ) : (
+            false
+          )}
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setIsConfirmDisabled(!validateNote(title, body));
+              if (isFavorite) {
+                setIsFavorite(false);
+              } else {
+                setIsFavorite(true);
+              }
+            }}
+            className="note-page__favorites">
+            <img
+              className={`note-page__favorites-img ${isFavorite ? "active" : ""}`}
+              src={"/images/star-24.png"}
+              alt="star"
+            />
+          </button>
+          <button disabled={isConfirmDisabled} className="note-page__confirm">
+            <img className="note-page__confirm-img" src={confirm} alt="confirm" />
+          </button>
+        </div>
       </div>
       <div className="note-page-header__floor-2">
         <time className="note-page__date">{formattedDate}</time>

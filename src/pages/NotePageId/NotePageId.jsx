@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import { FireBase } from "../../API/firebase";
@@ -9,24 +9,30 @@ import NotePageBody from "../../components/UI/NotePage/NotePageBody";
 import { CategoriesContext } from "../../context/CategoriesContext";
 import PageLoader from "../../components/pageloader/PageLoader";
 import CreateCategoryModal from "../../components/createCategoryModal/CreateCategotyModal";
+import Modal from "../../components/UI/Modal/Modal";
+import Button from "../../components/UI/Button/Button";
 
 const NotePageId = () => {
   const navigate = useNavigate();
   const ref = useRef();
   const params = useParams();
-  const { allCategories, setAllCategories, fetchCategories } = useContext(CategoriesContext);
+  const { allCategories, fetchCategories } = useContext(CategoriesContext);
   const [title, setTitle] = useState("");
   const [date, setDate] = useState(Date.now());
   const [body, setBody] = useState("");
+  const [isFavorite, setIsFavorite] = useState(false);
   const [currentCategory, setCurrentCategory] = useState("Без категории");
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
   const [isConfirmDisabled, setIsConfirmDisabled] = useState(true);
+
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
   const [fetchNote, isNoteLoading, isNoteError] = useFetching(async () => {
     const note = await FireBase.getNote(params.id);
     setTitle(note.title);
     setBody(note.body);
     setDate(note.date);
+    setIsFavorite(note.isFavorite);
     setCurrentCategory(note.category);
   });
 
@@ -35,6 +41,10 @@ const NotePageId = () => {
     fetchCategories();
   }, []);
 
+  useMemo(() => {
+    document.title = title;
+  }, [date]);
+
   if (isNoteLoading) {
     return <PageLoader />;
   }
@@ -42,7 +52,7 @@ const NotePageId = () => {
   const submit = async (e) => {
     e.preventDefault();
     const newDate = Date.now();
-    await FireBase.updateNote(title, body, currentCategory, newDate, params.id);
+    await FireBase.updateNote(title, body, currentCategory, newDate, isFavorite, params.id);
     navigate("/");
   };
 
@@ -64,8 +74,36 @@ const NotePageId = () => {
         ) : (
           false
         )}
+        {isDeleteModalVisible ? (
+          <Modal>
+            <span className="modal__text">Вы действительно хотите удалить эту заметку?</span>
+            <div className="modal__buttons">
+              <Button
+                onClick={async (e) => {
+                  setIsDeleteModalVisible(false);
+                  await FireBase.deleteNote(params.id);
+                  navigate("/");
+                }}
+                className={`modal__button hover-disabled`}>
+                Да
+              </Button>
+              <Button
+                onClick={() => {
+                  setIsDeleteModalVisible(false);
+                }}
+                className={"button--invert modal__button hover-disabled"}>
+                Нет
+              </Button>
+            </div>
+          </Modal>
+        ) : (
+          false
+        )}
         <NotePage submit={submit}>
           <NotePageHeader
+            isFavorite={isFavorite}
+            setIsFavorite={setIsFavorite}
+            noteId={params.id}
             currentCategory={currentCategory}
             setCurrentCategory={setCurrentCategory}
             setIsCreateModalVisible={setIsCreateModalVisible}
@@ -78,6 +116,7 @@ const NotePageId = () => {
             setIsConfirmDisabled={setIsConfirmDisabled}
             validateNote={validateNote}
             conttrolsRef={ref}
+            setIsDeleteModalVisible={setIsDeleteModalVisible}
           />
           <NotePageBody
             title={title}
@@ -87,9 +126,6 @@ const NotePageId = () => {
             setIsConfirmDisabled={setIsConfirmDisabled}
             validateNote={validateNote}
           />
-          {/* <div ref={ref} className="note-page__controlls">
-            controlls
-          </div> */}
         </NotePage>
       </main>
     </div>

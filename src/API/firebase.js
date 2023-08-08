@@ -83,35 +83,14 @@ export class FireBase {
     });
   }
 
-  static async addNote(title, body, category = "Без категории", date) {
+  static async addNote(title, body, category = "Без категории", date, isFavorite) {
     try {
       await setDoc(doc(collection(this.#db, this.user.uid + `-notes`)), {
         title,
         body,
         category,
         date,
-      });
-    } catch (e) {
-      console.log("Error adding document: ", e);
-    }
-  }
-
-  static async getNote(id) {
-    try {
-      const querySnapshot = await getDoc(doc(collection(this.#db, this.user.uid + `-notes`), id));
-      return querySnapshot.data();
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  static async updateNote(title, body, category = "Без категории", date, id) {
-    try {
-      await setDoc(doc(collection(this.#db, this.user.uid + `-notes`), id), {
-        title,
-        body,
-        category,
-        date,
+        isFavorite,
       });
     } catch (e) {
       console.log("Error adding document: ", e);
@@ -127,6 +106,37 @@ export class FireBase {
         result.push(noteObject);
       });
       return result;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  static async getNote(id) {
+    try {
+      const querySnapshot = await getDoc(doc(collection(this.#db, this.user.uid + `-notes`), id));
+      return querySnapshot.data();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  static async updateNote(title, body, category = "Без категории", date, isFavorite, id) {
+    try {
+      await setDoc(doc(collection(this.#db, this.user.uid + `-notes`), id), {
+        title,
+        body,
+        category,
+        date,
+        isFavorite,
+      });
+    } catch (e) {
+      console.log("Error adding document: ", e);
+    }
+  }
+
+  static async deleteNote(id) {
+    try {
+      await deleteDoc(doc(this.#db, this.user.uid + `-notes`, id));
     } catch (e) {
       console.log(e);
     }
@@ -169,7 +179,7 @@ export class FireBase {
     try {
       await this.updateCategories(categories);
       notes.forEach(async (note) => {
-        await deleteDoc(doc(this.#db, this.user.uid + `-notes`, note.id));
+        this.deleteNote(note.id);
       });
     } catch (e) {
       console.log(e);
