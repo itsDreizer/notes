@@ -36,11 +36,11 @@ const NotePageHeader = (props) => {
 
   let formattedDate = new Date(date);
 
-  formattedDate = `${formattedDate.getDate() > 10 ? formattedDate.getDate() : "0" + formattedDate.getDate()}.${
-    formattedDate.getMonth() + 1 > 10 ? formattedDate.getMonth() + 1 > 10 : "0" + (formattedDate.getMonth() + 1)
+  formattedDate = `${formattedDate.getDate() > 9 ? formattedDate.getDate() : "0" + formattedDate.getDate()}.${
+    formattedDate.getMonth() + 1 > 9 ? formattedDate.getMonth() + 1 > 9 : "0" + (formattedDate.getMonth() + 1)
   }.${formattedDate.getFullYear()} ${
-    formattedDate.getHours() > 10 ? formattedDate.getHours() : "0" + formattedDate.getHours()
-  }:${formattedDate.getMinutes() > 10 ? formattedDate.getMinutes() : "0" + formattedDate.getMinutes()}`;
+    formattedDate.getHours() > 9 ? formattedDate.getHours() : "0" + formattedDate.getHours()
+  }:${formattedDate.getMinutes() > 9 ? formattedDate.getMinutes() : "0" + formattedDate.getMinutes()}`;
 
   return (
     <div className="note-page-header">
